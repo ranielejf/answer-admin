@@ -1,10 +1,10 @@
 # Filament Admin Implementation Strategy
 
 ## Objective
-Build `answer-admin` as a parallel Laravel 12 + Filament admin service, reusing the same MySQL database as `answer`, while keeping public/end-user flows in the current app.
+Build `answer-admin` as a Laravel 12 + Filament administration service for `answer`, reusing the same MySQL database and explicitly excluding end-user product flows from this codebase.
 
 ## Strategic Decisions
-- Parallel fork, not in-place migration.
+- Admin-only service, not a full product migration target.
 - `answer` remains Service A (public/user).
 - `answer-admin` becomes Service B (internal/admin).
 - Shared database during migration phase.
@@ -21,6 +21,7 @@ Build `answer-admin` as a parallel Laravel 12 + Filament admin service, reusing 
 - Users, roles, workspaces, versions, login logs.
 - Curation/moderation workflows.
 - Internal reports and exports.
+- Read/operate admin data only; no end-user Q&A runtime features.
 
 ## Shared Database Governance
 - During current CRUD replication phase, `answer-admin` must not run schema-changing migrations.
@@ -50,7 +51,7 @@ Governance-critical actions (v0): role/permission governance, destructive high-i
 2. Parallel bootstrap
 - Keep `answer-admin` connected to the same DB (local scope first).
 
-3. Incremental migration by waves
+3. Incremental admin parity by waves
 - Wave 1: Users, Roles, Workspaces, Login Logs.
 - Wave 2: Versions and maintenance operations.
 - Wave 3: Curation/moderation and operational reporting.
@@ -79,6 +80,11 @@ Governance-critical actions (v0): role/permission governance, destructive high-i
 2. Disable legacy admin routes behind feature flag after parity sign-off.
 3. Monitor metrics and logs during stabilization.
 4. Remove legacy admin code only after steady-state confirmation.
+
+## Explicit Out of Scope
+- Migrating full end-user product experience into `answer-admin`.
+- Implementing end-user question/answer runtime flows in this repository.
+- Replacing Service A (`answer`) as the public application.
 
 ## Local Connectivity Notes
 - Credentials source of truth: `/Users/ranielejf/Projetos/answer/.env`.
