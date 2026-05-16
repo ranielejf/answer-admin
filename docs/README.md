@@ -13,6 +13,13 @@ This folder is the canonical place for operational and project documentation for
 - Always include context, decision, impact, and next steps.
 - Update docs in the same change that introduces behavior changes.
 
+## Cross-repo alignment (Answer monolith)
+
+Operational Q&A and glass UI work is documented in the main app repo:
+
+- `answer` repo: `docs/architecture/glass-app-implementation-plan.md` (master plan, awaiting approval)
+- This service (`answer-admin`) owns **governance Filament** only; do not migrate Q&A business logic here for layout reasons.
+
 ## Suggested Structure
 - `docs/operations/`: runbooks, deployment notes, production alignment.
 - `docs/runbooks/`: step-by-step execution guides.
