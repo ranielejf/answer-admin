@@ -1,0 +1,20 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: answer-admin-app
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "8001:8000"
+    environment:
+      APP_ENV: local
+    networks:
+      - answer_shared
+
+networks:
+  answer_shared:
+    external: true
+    name: answer_default
